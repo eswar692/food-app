@@ -41,4 +41,19 @@ const productAdd = async(req,res)=>{
     }
 }
 
-module.exports = {product:[upload.single('image'),productAdd]}
+const firmProductsGet = async(req,res)=>{
+    const firmId = req.param.firmId
+    try {
+        const firm = await Firm.findById(firmId)
+        if(!firm){
+            res.status(404).json("vendor not added any products")
+        }
+        const product = await Product.find({firm:firmId})
+        res.status(201).json(product)
+    } catch (error) {
+        console.log(error)
+        res.status(501).json("valid path try again")
+    }
+}
+
+module.exports = {product:[upload.single('image'),productAdd],firmProductsGet}
