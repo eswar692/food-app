@@ -7,7 +7,10 @@ const route = require('./Routes/route')
 const firmRoute = require('./Routes/firmRoute')
 const productRoute = require('./Routes/productRoute')
 const path = require('path')
+const cors = require('cors')
+app.use(cors())
 
+const port = process.env.port || 3000
 
 app.use('/vendor',route)
 app.use('/firm',firmRoute)
@@ -19,7 +22,7 @@ mongoose.connect(process.env.mongo_url)
 .catch((error)=>{console.log(error)})
 
 
-app.listen(3000,()=>{
+app.listen(port,()=>{
     console.log('server running at port 3000')
     
 })
