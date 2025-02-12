@@ -6,10 +6,13 @@ app.use(express.json())
 const route = require('./Routes/route')
 const firmRoute = require('./Routes/firmRoute')
 const productRoute = require('./Routes/productRoute')
+const path = require('path')
+
 
 app.use('/vendor',route)
 app.use('/firm',firmRoute)
 app.use('/product',productRoute)
+
 
 mongoose.connect(process.env.mongo_url)
 .then(()=>{console.log('mongo db connected')})

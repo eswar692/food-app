@@ -42,7 +42,7 @@ const productAdd = async(req,res)=>{
 }
 
 const firmProductsGet = async(req,res)=>{
-    const firmId = req.param.firmId
+    const firmId = req.params.firmId
     try {
         const firm = await Firm.findById(firmId)
         if(!firm){
@@ -56,4 +56,19 @@ const firmProductsGet = async(req,res)=>{
     }
 }
 
-module.exports = {product:[upload.single('image'),productAdd],firmProductsGet}
+const deleteProductById = async(req,res)=>{
+    try {
+        const productId = req.params.productId
+        if(!productId){ return res.status(404).json("Product Not Found")}
+        const deleteProduct = await Product.findByIdAndDelete(productId)
+        if(deleteProduct){
+            res.status(201).json('Product Deleted Successfully')
+        }
+        
+    } catch (error) {
+        console.log(error)
+        res.status(501).json('Internal Error')
+    }
+}
+
+module.exports = {product:[upload.single('file'),productAdd],firmProductsGet, deleteProductById}
