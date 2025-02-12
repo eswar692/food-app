@@ -2,6 +2,7 @@
 const Firm = require('../Model/Firm')
 const multer = require('multer')
 const Vendor = require('../Model/Vendor')
+const { product } = require('./productController')
 
 const storage =multer.diskStorage({
     destination:(req,file,cb)=>{
@@ -46,5 +47,17 @@ const addFirm  = async (req,res)=>{
     }
 }
 
+const deleteFirmById = async(req,res)=>{
+    try {
+        const firmId = req.params.firmId
+        const deleteFirm =  await Firm.findByIdAndDelete(firmId)
+        if(!deleteFirm){return res.status(404).json('Firm not found')}
+        res.status(201).json('Firm Deleted Successfullly')
+    } catch (error) {
+        console.log(error)
+        res.status(502).json('firm not added.try again')
+    }
+}
+
 const file = upload.single('image')
-module.exports = {firm:[file,addFirm]}
+module.exports = {firm:[file,addFirm], deleteFirmById}
